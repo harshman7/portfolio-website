@@ -1,0 +1,1390 @@
+{% load portfolio_filters %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if profile %}{{ profile.full_name }}{% else %}Portfolio{% endif %} - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#002147',
+                        secondary: '#003366',
+                        tertiary: '#004080',
+                        accent: '#0055aa',
+                        'dark-bg': '#0a0a0a',
+                        'dark-card': '#1a1a1a',
+                        'dark-border': '#2a2a2a',
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scroll-padding-top: 80px;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            /* Apple-like smooth scrolling */
+            scroll-behavior: smooth;
+            overscroll-behavior: none;
+        }
+        
+        /* Smooth scrolling for all browsers */
+        @media (prefers-reduced-motion: no-preference) {
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+        
+        /* Animated Background with Parallax */
+        .gradient-bg { 
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+        }
+        
+        /* Animated Grid */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            transform: translateZ(0);
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            animation: float-orb 20s infinite;
+            transform: translateZ(0);
+        }
+        
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #002147;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 200px;
+            height: 200px;
+            background: #003366;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: #004080;
+            bottom: 20%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        /* Scroll Reveal Cards - Fast Responsive Animation */
+        .reveal-card {
+            opacity: 0 !important;
+            transform: translateY(50px) scale(0.98);
+            filter: blur(5px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity, filter;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+        
+        .reveal-card.visible {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+        }
+        
+        .reveal-card-left {
+            opacity: 0 !important;
+            transform: translateX(-50px) scale(0.98);
+            filter: blur(5px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity, filter;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+        
+        .reveal-card-left.visible {
+            opacity: 1 !important;
+            transform: translateX(0) scale(1);
+            filter: blur(0px);
+        }
+        
+        .reveal-card-right {
+            opacity: 0 !important;
+            transform: translateX(50px) scale(0.98);
+            filter: blur(5px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity, filter;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+        
+        .reveal-card-right.visible {
+            opacity: 1 !important;
+            transform: translateX(0) scale(1);
+            filter: blur(0px);
+        }
+        
+        .reveal-card-scale {
+            opacity: 0 !important;
+            transform: scale(0.95);
+            filter: blur(5px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity, filter;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+        
+        .reveal-card-scale.visible {
+            opacity: 1 !important;
+            transform: scale(1);
+            filter: blur(0px);
+        }
+        
+        /* Additional Reveal Effects */
+        .reveal-fade {
+            opacity: 0 !important;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal-fade.visible {
+            opacity: 1 !important;
+        }
+        
+        .reveal-slide-up {
+            opacity: 0 !important;
+            transform: translateY(40px) !important;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal-slide-up.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        .reveal-rotate {
+            opacity: 0 !important;
+            transform: rotate(-2deg) scale(0.98) !important;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal-rotate.visible {
+            opacity: 1 !important;
+            transform: rotate(0deg) scale(1) !important;
+        }
+        
+        /* Stagger Item Reverse Animation */
+        .stagger-item {
+            opacity: 0 !important;
+            transform: translateY(15px) !important;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .stagger-item.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        /* Quirky Card Hover */
+        .quirky-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quirky-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .quirky-card:hover::before {
+            opacity: 1;
+        }
+        
+        .quirky-card:hover {
+            border-color: #002147 !important;
+            box-shadow: 0 20px 40px rgba(0, 33, 71, 0.3),
+                        0 0 0 1px rgba(0, 33, 71, 0.2) !important;
+        }
+        
+        /* Hover transform only applies when card is visible */
+        .quirky-card.visible:hover {
+            transform: translateY(-10px) scale(1.02) !important;
+        }
+        
+        /* Ensure reveal animations take precedence over hover */
+        .quirky-card:not(.visible) {
+            pointer-events: none;
+        }
+        
+        .quirky-card.visible {
+            pointer-events: auto;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+        
+        /* Text Reveal */
+        .text-reveal {
+            opacity: 0 !important;
+            transform: translateY(20px) !important;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .text-reveal.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        /* Section Title Reveal - Fast */
+        .section-title {
+            opacity: 0 !important;
+            transform: translateY(20px) scale(0.98) !important;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity;
+        }
+        
+        .section-title.visible {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+        
+        /* Skill Bar */
+        .skill-bar-container {
+            width: 100%;
+            height: 10px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .skill-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #002147, #003366, #004080, #0055aa);
+            border-radius: 10px;
+            transition: width 1.5s ease-out;
+            position: relative;
+        }
+        
+        .skill-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation Dropdown */
+        .dropdown-menu {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .dropdown-menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+        
+        /* Quirky Button */
+        .quirky-btn {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #002147, #003366, #004080);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .quirky-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .quirky-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .quirky-btn:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 30px rgba(0, 33, 71, 0.5);
+            background: linear-gradient(135deg, #003366, #004080, #0055aa);
+        }
+        
+        /* Typing Animation */
+        .typing-text {
+            overflow: hidden;
+            border-right: 3px solid #002147;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #002147; }
+        }
+        
+        /* Scroll Progress - Apple-like Smooth */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #002147, #003366, #004080, #0055aa);
+            z-index: 9999;
+            transition: width 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 10px rgba(0, 33, 71, 0.5);
+        }
+        
+        /* Social Icons */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e5e5;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-icon:hover {
+            background: rgba(0, 33, 71, 0.3);
+            border-color: #002147;
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 0 20px rgba(0, 33, 71, 0.5);
+        }
+        
+        .social-icon.linkedin:hover {
+            background: rgba(0, 33, 71, 0.3);
+            border-color: #002147;
+        }
+        
+        .social-icon.instagram:hover {
+            background: rgba(0, 33, 71, 0.3);
+            border-color: #002147;
+        }
+        
+        .social-icon.github:hover {
+            background: rgba(0, 33, 71, 0.3);
+            border-color: #002147;
+        }
+        
+        .social-icon.twitter:hover {
+            background: rgba(0, 33, 71, 0.3);
+            border-color: #002147;
+        }
+        
+        /* Navigation - Apple-like Sticky with Fade */
+        nav {
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 10, 10, 0.72);
+            border-bottom: 1px solid rgba(42, 42, 42, 0.5);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: background-color, backdrop-filter, transform, opacity;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.85);
+            border-bottom-color: rgba(42, 42, 42, 0.8);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        nav.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Quirky Animations */
+        @keyframes bounce-quirky {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-2deg); }
+            75% { transform: translateY(-5px) rotate(2deg); }
+        }
+        
+        .bounce-quirky {
+            animation: bounce-quirky 3s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .wiggle:hover {
+            animation: wiggle 0.5s ease-in-out;
+        }
+        
+        /* Section Title */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #002147, #003366, #004080);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        .section-title.visible::after {
+            width: 100px;
+        }
+        
+        /* Project Overlay */
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 33, 71, 0.95), rgba(0, 51, 102, 0.95), rgba(0, 64, 128, 0.95));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        /* Cursor Follow Effect */
+        .cursor-follow {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 33, 71, 0.5), transparent);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease;
+        }
+        
+        /* Number Counter Animation */
+        .counter {
+            display: inline-block;
+        }
+        
+        /* Stagger Animation */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Quirky Text Effects */
+        .text-gradient {
+            background: linear-gradient(90deg, #002147, #003366, #004080, #0055aa, #002147);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text 3s linear infinite;
+        }
+        
+        @keyframes gradient-text {
+            to { background-position: 200% center; }
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #002147;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #003366;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 1s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            20% { clip: rect(54px, 9999px, 66px, 0); }
+            40% { clip: rect(28px, 9999px, 100px, 0); }
+            60% { clip: rect(67px, 9999px, 85px, 0); }
+            80% { clip: rect(23px, 9999px, 98px, 0); }
+            100% { clip: rect(76px, 9999px, 91px, 0); }
+        }
+        
+        /* Smooth Page Load */
+        body {
+            opacity: 0;
+            animation: fadeInBody 0.8s ease-in forwards;
+        }
+        
+        @keyframes fadeInBody {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Mobile Menu Button */
+        .menu-btn {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        
+        .menu-btn span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #e5e5e5;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-btn span:nth-child(1) { top: 0; }
+        .menu-btn span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .menu-btn span:nth-child(3) { bottom: 0; }
+        
+        .menu-btn.active span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+        
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-btn.active span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-gray-200">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Cursor Follow Effect -->
+    <div class="cursor-follow" id="cursorFollow"></div>
+    
+    <!-- Navigation - Apple-like Sticky -->
+    <nav id="mainNav" class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold text-white text-gradient">
+                    {% if profile %}{{ profile.full_name }}{% else %}Portfolio{% endif %}
+                </div>
+                <button id="menuBtn" class="menu-btn focus:outline-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu" class="dropdown-menu">
+        <nav class="space-y-2">
+            <a href="#home" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Home</a>
+            <a href="#about" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">About</a>
+            <a href="#experience" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Experience</a>
+            <a href="#projects" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Projects</a>
+            <a href="#skills" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Skills</a>
+            <a href="#contact" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Contact</a>
+        </nav>
+    </div>
+    
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen gradient-bg relative flex items-center justify-center pt-16">
+            <div class="grid-pattern"></div>
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
+            {% if profile %}
+            <!-- Animated Avatar -->
+            <div class="mb-8 reveal-card-scale">
+                <div class="w-40 h-40 rounded-full mx-auto bg-gradient-to-br from-[#002147] via-[#003366] to-[#004080] flex items-center justify-center bounce-quirky border-4 border-white/20 shadow-2xl">
+                    <span class="text-6xl text-white font-bold">{{ profile.full_name|first }}</span>
+                </div>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-bold text-white mb-4 text-reveal glitch" data-text="{{ profile.full_name }}">
+                {{ profile.full_name }}
+            </h1>
+            <p class="text-2xl md:text-3xl text-gray-300 mb-2 typing-text text-gradient">
+                Software Developer & Data Engineer
+            </p>
+            <p class="text-lg text-gray-400 mb-8">
+                {{ profile.location }}
+            </p>
+            {% else %}
+            <h1 class="text-6xl md:text-8xl font-bold text-white mb-4">Welcome to My Portfolio</h1>
+            <p class="text-2xl md:text-3xl text-gray-300 typing-text text-gradient">Software Developer & Data Engineer</p>
+            {% endif %}
+            
+            <!-- Social Icons -->
+            <div class="flex justify-center items-center space-x-6 mb-10 flex-wrap gap-4">
+                {% if profile %}
+                {% if profile.email %}
+                <a href="mailto:{{ profile.email }}" class="social-icon wiggle">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                {% endif %}
+                {% if profile.phone %}
+                <a href="tel:{{ profile.phone }}" class="social-icon wiggle">
+                    <i class="fas fa-phone"></i>
+                </a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="social-icon linkedin wiggle">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                {% endif %}
+                {% if profile.instagram_url %}
+                <a href="{{ profile.instagram_url }}" target="_blank" class="social-icon instagram wiggle">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                {% endif %}
+                {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" class="social-icon github wiggle">
+                    <i class="fab fa-github"></i>
+                </a>
+                {% endif %}
+                {% if profile.twitter_url %}
+                <a href="{{ profile.twitter_url }}" target="_blank" class="social-icon twitter wiggle">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                {% endif %}
+                {% endif %}
+            </div>
+            
+            <div class="mt-10">
+                <a href="#about" class="inline-block quirky-btn px-10 py-4 rounded-full font-bold text-lg text-white">
+                    Explore My Work
+                </a>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="mt-16 bounce-quirky">
+                <a href="#about" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-chevron-down text-3xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-[#0f0f0f]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">About Me</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="reveal-card-left quirky-card p-8">
+                    {% if profile %}
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        {{ profile.bio|default:"Passionate software developer and data engineer with expertise in building scalable applications and data pipelines. I love creating innovative solutions and turning complex problems into simple, beautiful designs." }}
+                    </p>
+                    {% else %}
+                    <p class="text-lg text-gray-300 leading-relaxed">
+                        Passionate software developer and data engineer with expertise in building scalable applications and data pipelines.
+                    </p>
+                    {% endif %}
+                </div>
+                
+                <div class="reveal-card-right">
+                    <h3 class="text-2xl font-semibold mb-6 text-white">Education</h3>
+                    {% for edu in education %}
+                    <div class="quirky-card p-6 mb-6 reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                        <h4 class="text-xl font-semibold text-white mb-2">{{ edu.institution }}</h4>
+                        <p class="text-gray-300 font-medium mb-1">{{ edu.degree }}{% if edu.major %} - {{ edu.major }}{% endif %}</p>
+                        <p class="text-gray-400 text-sm mb-2">{{ edu.graduation_date }}{% if edu.gpa %} | GPA: {{ edu.gpa }}/4.0{% endif %}</p>
+                        <p class="text-gray-400 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>{{ edu.location }}</p>
+                        {% if edu.description %}
+                        <p class="text-gray-300 mt-3 text-sm">{{ edu.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p class="text-gray-400">Education information coming soon.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">Work Experience</h2>
+            
+            <div class="space-y-8">
+                {% for exp in work_experience %}
+                <div class="quirky-card p-8 reveal-card border-l-4 border-[#002147]" style="transition-delay: {{ forloop.counter|mul:0.15 }}s">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">{{ exp.position }}</h3>
+                            <p class="text-xl text-gradient font-semibold mb-2">{{ exp.company }}</p>
+                            <p class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i>{{ exp.location }}</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <span class="inline-block px-4 py-2 rounded-full text-sm font-semibold text-white" style="background: linear-gradient(135deg, #002147, #003366, #004080);">
+                                {{ exp.start_date }} - {% if exp.is_current %}Present{% else %}{{ exp.end_date }}{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4 leading-relaxed">{{ exp.description }}</p>
+                    {% if exp.achievements %}
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-white mb-3">Key Achievements:</h4>
+                        <ul class="space-y-2">
+                            {% for achievement in exp.achievements %}
+                            <li class="flex items-start stagger-item text-gray-300" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                                <span class="text-[#002147] mr-3 mt-1 font-bold">▸</span>
+                                <span>{{ achievement }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-center text-gray-400">Work experience information coming soon.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-[#0f0f0f]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">Skills</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for category, skills_list in skills_by_category.items %}
+                <div class="quirky-card p-6 reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                    <h3 class="text-xl font-semibold mb-4 text-white capitalize flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-3" style="background: linear-gradient(135deg, #002147, #003366, #004080);"></span>
+                        {{ category }}
+                    </h3>
+                    <div class="space-y-4">
+                        {% for skill in skills_list %}
+                        <div class="stagger-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-300">{{ skill.name }}</span>
+                                <span class="text-sm text-gray-400">{{ skill.proficiency }}/5</span>
+                            </div>
+                            <div class="skill-bar-container">
+                                <div class="skill-bar" data-proficiency="{{ skill.proficiency }}" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% empty %}
+                <p class="col-span-full text-center text-gray-400">Skills information coming soon.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">Projects</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for project in projects %}
+                <div class="quirky-card overflow-hidden project-card reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                    {% if project.image %}
+                    <div class="relative overflow-hidden">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                        <div class="project-overlay">
+                            <div class="text-white text-center p-4">
+                                <i class="fas fa-eye text-4xl mb-2"></i>
+                                <p class="font-semibold">View Project</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="w-full h-48 bg-gradient-to-br from-[#002147] via-[#003366] to-[#004080] flex items-center justify-center relative">
+                        <i class="fas fa-code text-white text-5xl"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">{{ project.title }}</h3>
+                        <p class="text-gray-400 text-sm mb-3">{{ project.project_date }}</p>
+                        <p class="text-gray-300 mb-4 text-sm leading-relaxed">{{ project.description|truncatewords:20 }}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {% for tech in project.get_tech_stack_list %}
+                            <span class="px-3 py-1 bg-[#1a1a1a] text-gray-300 text-xs rounded-full border border-[#2a2a2a] hover:border-[#002147] transition">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        {% if project.features %}
+                        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 space-y-1">
+                            {% for feature in project.features|slice:":3" %}
+                            <li>{{ feature }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <div class="flex space-x-3 mt-4">
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" class="flex-1 bg-[#1a1a1a] text-white px-3 py-2 rounded text-center text-sm hover:bg-[#2a2a2a] transition border border-[#2a2a2a]">
+                                <i class="fab fa-github mr-1"></i> GitHub
+                            </a>
+                            {% endif %}
+                            {% if project.live_url %}
+                            <a href="{{ project.live_url }}" target="_blank" class="flex-1 quirky-btn px-3 py-2 rounded text-center text-sm text-white">
+                                <i class="fas fa-external-link-alt mr-1"></i> Live
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="col-span-full text-center text-gray-400">Projects information coming soon.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Certifications Section -->
+    {% if certifications %}
+    <section class="py-20 bg-[#0f0f0f]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">Certifications</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for cert in certifications %}
+                <div class="quirky-card p-6 reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                    <div class="flex items-center justify-between mb-4">
+                        <i class="fas fa-certificate text-3xl text-gradient"></i>
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank" class="text-gray-400 hover:text-white transition">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">{{ cert.name }}</h3>
+                    {% if cert.issuer %}
+                    <p class="text-gray-400 text-sm mb-2">{{ cert.issuer }}</p>
+                    {% endif %}
+                    {% if cert.issue_date %}
+                    <p class="text-gray-500 text-sm"><i class="far fa-calendar mr-2"></i>{{ cert.issue_date }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white section-title">Get In Touch</h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+            </p>
+            {% if profile %}
+            <div class="flex justify-center items-center space-x-6 mb-8 flex-wrap gap-4">
+                {% if profile.email %}
+                <a href="mailto:{{ profile.email }}" class="social-icon wiggle">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                {% endif %}
+                {% if profile.phone %}
+                <a href="tel:{{ profile.phone }}" class="social-icon wiggle">
+                    <i class="fas fa-phone"></i>
+                </a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="social-icon linkedin wiggle">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                {% endif %}
+                {% if profile.instagram_url %}
+                <a href="{{ profile.instagram_url }}" target="_blank" class="social-icon instagram wiggle">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                {% endif %}
+                {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" class="social-icon github wiggle">
+                    <i class="fab fa-github"></i>
+                </a>
+                {% endif %}
+                {% if profile.twitter_url %}
+                <a href="{{ profile.twitter_url }}" target="_blank" class="social-icon twitter wiggle">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                {% endif %}
+            </div>
+            <div class="text-gray-400 space-y-2">
+                {% if profile.email %}
+                <p><i class="fas fa-envelope mr-2"></i>{{ profile.email }}</p>
+                {% endif %}
+                {% if profile.phone %}
+                <p><i class="fas fa-phone mr-2"></i>{{ profile.phone }}</p>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="text-gray-400">Contact information coming soon.</p>
+            {% endif %}
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-[#0a0a0a] border-t border-[#2a2a2a] py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">&copy; {% now "Y" %} {% if profile %}{{ profile.full_name }}{% else %}Portfolio{% endif %}. All rights reserved.</p>
+            <p class="text-gray-500 text-sm mt-2">Made with <i class="fas fa-heart text-[#002147]"></i> using Django & Tailwind CSS</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Apple-like Smooth Scroll Implementation
+        let scrollVelocity = 0;
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        let isScrolling = false;
+        
+        // Smooth scroll progress with easing
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+            
+            requestAnimationFrame(() => {
+                scrollProgress.style.width = scrollPercent + '%';
+            });
+        }
+        
+        // Enhanced scroll handler with velocity tracking
+        function handleScroll() {
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            scrollVelocity = currentScrollTop - lastScrollTop;
+            lastScrollTop = currentScrollTop;
+            
+            // Update scroll progress
+            updateScrollProgress();
+            
+            // Handle navigation
+            handleNavigation(currentScrollTop);
+            
+            // Clear scroll timeout
+            clearTimeout(scrollTimeout);
+            isScrolling = true;
+            
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+                scrollVelocity = 0;
+            }, 150);
+        }
+        
+        // Apple-like navigation behavior
+        function handleNavigation(scrollTop) {
+            const nav = document.getElementById('mainNav');
+            if (!nav) return;
+            
+            if (scrollTop > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            // Hide nav when scrolling down fast, show when scrolling up
+            if (Math.abs(scrollVelocity) > 10) {
+                if (scrollVelocity > 0 && scrollTop > 100) {
+                    nav.classList.add('hidden');
+                } else {
+                    nav.classList.remove('hidden');
+                }
+            }
+        }
+        
+        // Smooth scroll event listener
+        let scrollTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                window.requestAnimationFrame(() => {
+                    handleScroll();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }, { passive: true });
+        
+        // Initial scroll progress
+        updateScrollProgress();
+        
+        // Dropdown Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        
+        if (menuBtn && dropdownMenu) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuBtn.classList.toggle('active');
+                dropdownMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    menuBtn.classList.remove('active');
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+            
+            // Close menu when clicking a link
+            dropdownMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('active');
+                    dropdownMenu.classList.remove('active');
+                });
+            });
+        }
+        
+        // Cursor Follow Effect
+        const cursorFollow = document.getElementById('cursorFollow');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursorFollow.style.left = cursorX + 'px';
+            cursorFollow.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        
+        // Apple-like Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const targetPosition = target.offsetTop - 80; // Account for nav height
+                    const startPosition = window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    const duration = 800; // Apple-like smooth duration
+                    let start = null;
+                    
+                    function smoothScroll(timestamp) {
+                        if (!start) start = timestamp;
+                        const progress = timestamp - start;
+                        const ease = progress / duration;
+                        
+                        // Apple-like easing function
+                        const eased = ease < 1 
+                            ? ease * (2 - ease) 
+                            : 1;
+                        
+                        window.scrollTo(0, startPosition + distance * eased);
+                        
+                        if (progress < duration) {
+                            requestAnimationFrame(smoothScroll);
+                        }
+                    }
+                    
+                    requestAnimationFrame(smoothScroll);
+                }
+            });
+        });
+        
+        // Enhanced Scroll Reveal Animations with Bidirectional Support
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        
+        // Function to check if element is in viewport - More sensitive
+        function isInViewport(element, offset = 150) {
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            return (
+                rect.top < windowHeight - offset &&
+                rect.bottom > -offset
+            );
+        }
+        
+        // Fast Responsive Reveal Animations
+        function updateRevealElements() {
+            const currentScrollY = window.scrollY || window.pageYOffset;
+            const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+            lastScrollY = currentScrollY;
+            
+            const revealElements = document.querySelectorAll(`
+                .reveal-card,
+                .reveal-card-left,
+                .reveal-card-right,
+                .reveal-card-scale,
+                .reveal-fade,
+                .reveal-slide-up,
+                .reveal-rotate,
+                .stagger-item,
+                .text-reveal,
+                .section-title
+            `);
+            
+            revealElements.forEach((el) => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const elementTop = rect.top;
+                const elementBottom = rect.bottom;
+                
+                // More sensitive trigger - elements appear when they're closer to viewport
+                const triggerOffset = 150; // Trigger 150px before element enters viewport
+                const isVisible = elementTop < windowHeight + triggerOffset && elementBottom > -triggerOffset;
+                const isAboveViewport = elementBottom < -50;
+                
+                if (isVisible) {
+                    // Element is in viewport or about to enter - show it immediately
+                    if (!el.classList.contains('visible')) {
+                        el.classList.add('visible');
+                    }
+                } else {
+                    // Element is not in viewport
+                    if (scrollDirection === 'up' && isAboveViewport) {
+                        // Scrolling up and element is above viewport - hide it
+                        if (el.classList.contains('visible')) {
+                            el.classList.remove('visible');
+                        }
+                    }
+                }
+            });
+            
+            ticking = false;
+        }
+        
+        // Fast scroll handler - less throttling for responsiveness
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateRevealElements();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        // Initialize reveal elements on page load
+        function initializeRevealElements() {
+            const revealElements = document.querySelectorAll(`
+                .reveal-card,
+                .reveal-card-left,
+                .reveal-card-right,
+                .reveal-card-scale,
+                .reveal-fade,
+                .reveal-slide-up,
+                .reveal-rotate,
+                .stagger-item,
+                .text-reveal,
+                .section-title
+            `);
+            
+            // Set initial state - check what's already visible (more sensitive)
+            revealElements.forEach((el) => {
+                if (isInViewport(el, 200)) {
+                    el.classList.add('visible');
+                } else {
+                    el.classList.remove('visible');
+                }
+            });
+            
+            // Add scroll listener for bidirectional animations
+            window.addEventListener('scroll', onScroll, { passive: true });
+            
+            // Initial check - run immediately
+            updateRevealElements();
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeRevealElements);
+        } else {
+            // DOM is already loaded
+            setTimeout(initializeRevealElements, 100);
+        }
+        
+        // Animate Skill Bars on Scroll
+        const skillBars = document.querySelectorAll('.skill-bar');
+        const skillBarObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const proficiency = parseInt(bar.getAttribute('data-proficiency'));
+                    bar.style.width = (proficiency * 20) + '%';
+                    skillBarObserver.unobserve(bar);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        skillBars.forEach(bar => {
+            skillBarObserver.observe(bar);
+        });
+        
+        // Quirky random animations (without rotation)
+        setInterval(() => {
+            const cards = document.querySelectorAll('.quirky-card');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            if (randomCard && randomCard.classList.contains('visible')) {
+                randomCard.style.transform = 'translateY(-5px)';
+                setTimeout(() => {
+                    randomCard.style.transform = '';
+                }, 300);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
