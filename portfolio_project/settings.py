@@ -80,10 +80,21 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 # Database configuration
 # Use DATABASE_URL if available (for production platforms like Render, Railway, Heroku)
 DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
+
+# Only use DATABASE_URL if it's actually set and not empty
 if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL)
+        }
+    except (ValueError, Exception):
+        # If DATABASE_URL is invalid, fall back to SQLite
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 elif os.getenv('USE_POSTGRES', '').lower() == 'true':
     DATABASES = {
         'default': {
