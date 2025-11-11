@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 # Database configuration
 # Use DATABASE_URL if available (for production platforms like Render, Railway, Heroku)
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
