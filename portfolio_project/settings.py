@@ -27,7 +27,19 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-6*1hgt1sp38ugl9o*g1tm^!o6r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') if host.strip()] if os.getenv('ALLOWED_HOSTS') else []
+# ALLOWED_HOSTS configuration
+# Allow hosts from environment variable, or default to localhost for development
+ALLOWED_HOSTS_ENV = os.getenv('ALLOWED_HOSTS', '').strip()
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',') if host.strip()]
+else:
+    # Default fallback: allow localhost for development
+    if DEBUG:
+        ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    else:
+        # In production, ALLOWED_HOSTS must be set via environment variable
+        # This prevents the 400 error if it's accidentally not set
+        ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Will be overridden by env var in production
 
 
 # Application definition
