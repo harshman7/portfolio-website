@@ -28,18 +28,33 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-6*1hgt1sp38ugl9o*g1tm^!o6r
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 # ALLOWED_HOSTS configuration
-# Allow hosts from environment variable, or default to localhost for development
+# Always include the Render domain
+ALLOWED_HOSTS = ['portfolio-website-crcz.onrender.com']
+
+# Also add hosts from environment variable if set
 ALLOWED_HOSTS_ENV = os.getenv('ALLOWED_HOSTS', '').strip()
 if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',') if host.strip()]
-else:
-    # Default fallback: allow localhost for development
-    if DEBUG:
-        ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-    else:
-        # In production, ALLOWED_HOSTS must be set via environment variable
-        # This prevents the 400 error if it's accidentally not set
-        ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Will be overridden by env var in production
+    additional_hosts = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',') if host.strip()]
+    ALLOWED_HOSTS.extend(additional_hosts)
+
+# Add localhost for development
+if DEBUG:
+    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
+
+# Remove duplicates while preserving order
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
+
+# CSRF_TRUSTED_ORIGINS for Render
+CSRF_TRUSTED_ORIGINS = ['https://portfolio-website-crcz.onrender.com']
+
+# Also add from environment variable if set
+CSRF_TRUSTED_ORIGINS_ENV = os.getenv('CSRF_TRUSTED_ORIGINS', '').strip()
+if CSRF_TRUSTED_ORIGINS_ENV:
+    additional_origins = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_ENV.split(',') if origin.strip()]
+    CSRF_TRUSTED_ORIGINS.extend(additional_origins)
+
+# Remove duplicates while preserving order
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 
 # Application definition
@@ -180,7 +195,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Production Security Settings
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    # Don't use SECURE_SSL_REDIRECT on Render - Render handles SSL termination
+    # SECURE_SSL_REDIRECT = True  # Disabled for Render compatibility
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
