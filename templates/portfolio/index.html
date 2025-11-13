@@ -25,7 +25,7 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -40,7 +40,7 @@
         }
         
         body { 
-            font-family: 'Inter', sans-serif;
+            font-family: 'DM Sans', sans-serif;
             overflow-x: hidden;
             background-color: #0a0a0a;
             color: #e5e5e5;
@@ -1536,97 +1536,106 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title word-reveal">Projects</h2>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                 {% for project in projects %}
                 <div class="card-3d quirky-card overflow-hidden project-card reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
                     <div class="card-inner">
-                        <div class="card-front w-full">
-                    {% if project.image %}
-                    <div class="relative overflow-hidden">
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-40 sm:h-48 object-cover">
-                        <div class="project-overlay">
-                            <div class="text-white text-center p-4">
-                                <i class="fas fa-eye text-3xl sm:text-4xl mb-2"></i>
-                                <p class="font-semibold text-sm sm:text-base">View Project</p>
+                        <div class="card-front w-full flex flex-col h-full">
+                            {% if project.image %}
+                            <div class="relative overflow-hidden flex-shrink-0">
+                                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 sm:h-56 object-cover">
+                                <div class="project-overlay">
+                                    <div class="text-white text-center p-4">
+                                        <i class="fas fa-eye text-3xl sm:text-4xl mb-2"></i>
+                                        <p class="font-semibold text-sm sm:text-base">View Project</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="w-full h-40 sm:h-48 bg-gradient-to-br from-[#002147] via-[#003366] to-[#004080] flex items-center justify-center relative">
-                        <!-- Tech Stack Logo Detection -->
-                        {% with tech_list=project.get_tech_stack_list %}
-                        {% if tech_list|contains_tech:"python" or tech_list|contains_tech:"django" %}
-                            <i class="fab fa-python text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"react" or tech_list|contains_tech:"javascript" or tech_list|contains_tech:"js" %}
-                            <i class="fab fa-react text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"node" %}
-                            <i class="fab fa-node-js text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"aws" or tech_list|contains_tech:"amazon" %}
-                            <i class="fab fa-aws text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"google" or tech_list|contains_tech:"gcp" %}
-                            <i class="fab fa-google text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"azure" or tech_list|contains_tech:"microsoft" %}
-                            <i class="fab fa-microsoft text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"docker" %}
-                            <i class="fab fa-docker text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"kubernetes" or tech_list|contains_tech:"k8s" %}
-                            <i class="fas fa-cube text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"java" %}
-                            <i class="fab fa-java text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"php" %}
-                            <i class="fab fa-php text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"ruby" %}
-                            <i class="fas fa-gem text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"swift" %}
-                            <i class="fab fa-swift text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"android" %}
-                            <i class="fab fa-android text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"apple" or tech_list|contains_tech:"ios" %}
-                            <i class="fab fa-apple text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"html" or tech_list|contains_tech:"css" %}
-                            <i class="fab fa-html5 text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"vue" %}
-                            <i class="fab fa-vuejs text-white text-4xl sm:text-5xl"></i>
-                        {% elif tech_list|contains_tech:"angular" %}
-                            <i class="fab fa-angular text-white text-4xl sm:text-5xl"></i>
-                        {% else %}
-                            <i class="fas fa-code text-white text-4xl sm:text-5xl"></i>
-                        {% endif %}
-                        {% endwith %}
-                    </div>
-                    {% endif %}
-                    <div class="p-4 sm:p-6">
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-2 line-clamp-2">{{ project.title }}</h3>
-                        <p class="text-gray-400 text-xs sm:text-sm mb-3">{{ project.project_date }}</p>
-                        <p class="text-gray-300 mb-4 text-xs sm:text-sm leading-relaxed line-clamp-3">{{ project.description|truncatewords:20 }}</p>
-                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-                            {% for tech in project.get_tech_stack_list|slice:":5" %}
-                            <span class="px-2 sm:px-3 py-1 bg-[#1a1a1a] text-gray-300 text-xs rounded-full border border-[#2a2a2a] hover:border-[#002147] transition">{{ tech|truncatewords:1 }}</span>
-                            {% endfor %}
-                            {% if project.get_tech_stack_list|length > 5 %}
-                            <span class="px-2 sm:px-3 py-1 bg-[#1a1a1a] text-gray-400 text-xs rounded-full border border-[#2a2a2a]">+{{ project.get_tech_stack_list|length|add:"-5" }}</span>
+                            {% else %}
+                            <div class="w-full h-48 sm:h-56 bg-gradient-to-br from-[#002147] via-[#003366] to-[#004080] flex items-center justify-center relative flex-shrink-0">
+                                <!-- Tech Stack Logo Detection -->
+                                {% with tech_list=project.get_tech_stack_list %}
+                                {% if tech_list|contains_tech:"python" or tech_list|contains_tech:"django" %}
+                                    <i class="fab fa-python text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"react" or tech_list|contains_tech:"javascript" or tech_list|contains_tech:"js" %}
+                                    <i class="fab fa-react text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"node" %}
+                                    <i class="fab fa-node-js text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"aws" or tech_list|contains_tech:"amazon" %}
+                                    <i class="fab fa-aws text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"google" or tech_list|contains_tech:"gcp" %}
+                                    <i class="fab fa-google text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"azure" or tech_list|contains_tech:"microsoft" %}
+                                    <i class="fab fa-microsoft text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"docker" %}
+                                    <i class="fab fa-docker text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"kubernetes" or tech_list|contains_tech:"k8s" %}
+                                    <i class="fas fa-cube text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"java" %}
+                                    <i class="fab fa-java text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"php" %}
+                                    <i class="fab fa-php text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"ruby" %}
+                                    <i class="fas fa-gem text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"swift" %}
+                                    <i class="fab fa-swift text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"android" %}
+                                    <i class="fab fa-android text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"apple" or tech_list|contains_tech:"ios" %}
+                                    <i class="fab fa-apple text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"html" or tech_list|contains_tech:"css" %}
+                                    <i class="fab fa-html5 text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"vue" %}
+                                    <i class="fab fa-vuejs text-white text-5xl sm:text-6xl"></i>
+                                {% elif tech_list|contains_tech:"angular" %}
+                                    <i class="fab fa-angular text-white text-5xl sm:text-6xl"></i>
+                                {% else %}
+                                    <i class="fas fa-code text-white text-5xl sm:text-6xl"></i>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
                             {% endif %}
-                        </div>
-                        {% if project.features %}
-                        <ul class="list-disc list-inside text-xs sm:text-sm text-gray-400 mb-4 space-y-1 line-clamp-2">
-                            {% for feature in project.features|slice:":2" %}
-                            <li class="truncate">{{ feature|truncatewords:8 }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4">
-                            {% if project.github_url %}
-                            <a href="{{ project.github_url }}" target="_blank" class="flex-1 ripple bg-[#1a1a1a] text-white px-3 py-2 rounded text-center text-xs sm:text-sm hover:bg-[#2a2a2a] transition border border-[#2a2a2a]">
-                                <i class="fab fa-github mr-1"></i> <span class="hidden sm:inline">GitHub</span><span class="sm:hidden">Code</span>
-                            </a>
-                            {% endif %}
-                            {% if project.live_url %}
-                            <a href="{{ project.live_url }}" target="_blank" class="flex-1 quirky-btn ripple px-3 py-2 rounded text-center text-xs sm:text-sm text-white">
-                                <i class="fas fa-external-link-alt mr-1"></i> Live
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
+                            <div class="p-5 sm:p-6 md:p-8 flex-1 flex flex-col">
+                                <div class="mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">{{ project.title }}</h3>
+                                    <p class="text-gray-400 text-sm sm:text-base mb-4">{{ project.project_date }}</p>
+                                </div>
+                                
+                                <p class="text-sm sm:text-base text-gray-300 mb-5 leading-relaxed flex-1">{{ project.description }}</p>
+                                
+                                <div class="flex flex-wrap gap-2 mb-5">
+                                    {% for tech in project.get_tech_stack_list %}
+                                    <span class="px-3 py-1.5 bg-[#1a1a1a] text-gray-300 text-xs sm:text-sm rounded-full border border-[#2a2a2a] hover:border-[#002147] transition">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                                
+                                {% if project.features %}
+                                <div class="mb-5">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white mb-3">Key Features:</h4>
+                                    <ul class="space-y-2 list-none pl-0">
+                                        {% for feature in project.features %}
+                                        <li class="flex items-start text-sm sm:text-base text-gray-400">
+                                            <span class="text-[#0055aa] mr-3 mt-1 font-bold flex-shrink-0">•</span>
+                                            <span class="flex-1">{{ feature }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-auto pt-4">
+                                    {% if project.github_url %}
+                                    <a href="{{ project.github_url }}" target="_blank" class="flex-1 ripple bg-[#1a1a1a] text-white px-4 py-2.5 rounded-lg text-center text-sm sm:text-base hover:bg-[#2a2a2a] transition border border-[#2a2a2a] font-medium">
+                                        <i class="fab fa-github mr-2"></i> <span>GitHub</span>
+                                    </a>
+                                    {% endif %}
+                                    {% if project.live_url %}
+                                    <a href="{{ project.live_url }}" target="_blank" class="flex-1 quirky-btn ripple px-4 py-2.5 rounded-lg text-center text-sm sm:text-base text-white font-medium">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
