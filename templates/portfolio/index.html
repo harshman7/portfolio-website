@@ -827,6 +827,281 @@
             to { opacity: 1; }
         }
         
+        /* Loading Animation */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 85, 170, 0.2);
+            border-top-color: #0055aa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: #0055aa;
+            font-size: 1.2rem;
+            font-weight: 600;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Particle System */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        /* 3D Card Flip */
+        .card-3d {
+            perspective: 1000px;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card-3d:hover .card-inner {
+            transform: rotateY(5deg) rotateX(5deg);
+        }
+        
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0055aa;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #0055aa;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.15s ease;
+        }
+        
+        .custom-cursor.hover {
+            width: 50px;
+            height: 50px;
+            border-color: #0066cc;
+        }
+        
+        .custom-cursor.click {
+            transform: scale(0.9);
+        }
+        
+        /* Animated Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #002147, #0055aa, #002147);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: 50%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #0055aa;
+            border: 4px solid #0a0a0a;
+            border-radius: 50%;
+            top: 0;
+            box-shadow: 0 0 20px rgba(0, 85, 170, 0.6);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -11px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -11px;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 3rem !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            
+            .timeline-item .timeline-dot {
+                left: 9px !important;
+                right: auto !important;
+            }
+        }
+        
+        /* Word Reveal Animation */
+        .word-reveal {
+            overflow: hidden;
+        }
+        
+        .word-reveal span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .word-reveal.visible span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .ripple:active::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Circular Progress for Skills */
+        .skill-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .skill-circle svg {
+            transform: rotate(-90deg);
+        }
+        
+        .skill-circle circle {
+            fill: none;
+            stroke-width: 8;
+        }
+        
+        .skill-circle .bg-circle {
+            stroke: #2a2a2a;
+        }
+        
+        .skill-circle .progress-circle {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1.5s ease;
+        }
+        
+        /* Interactive Background Gradient */
+        .interactive-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 33, 71, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 85, 170, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(0, 64, 128, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            transition: transform 0.1s ease;
+        }
+        
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
         /* Mobile Menu Button */
         .menu-btn {
             position: relative;
@@ -903,6 +1178,24 @@
     </style>
 </head>
 <body class="bg-dark-bg text-gray-200">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+    
+    <!-- Interactive Background -->
+    <div class="interactive-bg" id="interactiveBg"></div>
+    
+    <!-- Particle System Canvas -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="custom-cursor-dot" id="customCursorDot"></div>
+    
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
     
@@ -1009,35 +1302,11 @@
             </div>
             
             <div class="mt-6 sm:mt-10">
-                <a href="#about" class="inline-block quirky-btn px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg text-white relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(0, 85, 170, 0.4);">
+                <a href="#about" class="inline-block quirky-btn magnetic-btn ripple px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg text-white relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(0, 85, 170, 0.4);">
                     <span class="relative z-10">Explore My Work</span>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#0055aa] via-[#0066cc] to-[#0055aa] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </a>
             </div>
-            
-            <!-- Quick Stats Section - Racing Style -->
-            {% if projects or work_experience or certifications %}
-            <div class="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto fast-fade-in" style="animation-delay: 0.3s;">
-                {% if projects %}
-                <div class="text-center">
-                    <div class="stat-number">{{ projects|length }}+</div>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Projects</p>
-                </div>
-                {% endif %}
-                {% if work_experience %}
-                <div class="text-center">
-                    <div class="stat-number">{{ work_experience|length }}+</div>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Experience</p>
-                </div>
-                {% endif %}
-                {% if certifications %}
-                <div class="text-center">
-                    <div class="stat-number">{{ certifications|length }}+</div>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Certifications</p>
-                </div>
-                {% endif %}
-            </div>
-            {% endif %}
             
             <!-- Scroll Indicator -->
             <div class="mt-8 sm:mt-16 bounce-quirky">
@@ -1051,7 +1320,7 @@
     <!-- About Section -->
     <section id="about" class="py-12 sm:py-16 md:py-20 bg-[#0f0f0f]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title">About Me</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title word-reveal">About Me</h2>
             
             <div class="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-start">
                 <div class="reveal-card-left quirky-card p-8">
@@ -1090,7 +1359,7 @@
     {% if certifications %}
     <section id="certifications" class="py-12 sm:py-16 md:py-20 bg-dark-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4 text-white section-title">Certifications</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4 text-white section-title word-reveal">Certifications</h2>
             <p class="text-center text-gray-400 mb-8 sm:mb-12 text-base sm:text-lg">Professional credentials and achievements</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {% for cert in certifications %}
@@ -1162,7 +1431,7 @@
                     
                     {% if cert.credential_url %}
                     <div class="mt-4">
-                        <a href="{{ cert.credential_url }}" target="_blank" class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all" style="background: linear-gradient(135deg, #002147, #003366, #004080);">
+                        <a href="{{ cert.credential_url }}" target="_blank" class="inline-flex items-center ripple px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all" style="background: linear-gradient(135deg, #002147, #003366, #004080);">
                             <span>Verify Credential</span>
                             <i class="fas fa-arrow-right ml-2"></i>
                         </a>
@@ -1178,9 +1447,49 @@
     <!-- Experience Section -->
     <section id="experience" class="py-12 sm:py-16 md:py-20 bg-dark-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title">Work Experience</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title word-reveal">Work Experience</h2>
             
-            <div class="space-y-8">
+            <!-- Timeline View -->
+            <div class="timeline">
+                {% for exp in work_experience %}
+                <div class="timeline-item reveal-card" style="transition-delay: {{ forloop.counter|mul:0.15 }}s">
+                    <div class="timeline-dot"></div>
+                    <div class="quirky-card p-4 sm:p-6 md:p-8 border-l-4 border-[#002147]">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3 sm:mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">{{ exp.position }}</h3>
+                                <p class="text-lg sm:text-xl text-gradient font-semibold mb-2">{{ exp.company }}</p>
+                                <p class="text-sm sm:text-base text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i>{{ exp.location }}</p>
+                            </div>
+                            <div class="mt-3 sm:mt-4 md:mt-0">
+                                <span class="inline-block px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold text-white" style="background: linear-gradient(135deg, #002147, #003366, #004080);">
+                                    {{ exp.start_date }} - {% if exp.is_current %}Present{% else %}{{ exp.end_date }}{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed">{{ exp.description }}</p>
+                        {% if exp.achievements %}
+                        <div class="mt-6">
+                            <h4 class="text-lg font-semibold text-white mb-3">Key Achievements:</h4>
+                            <ul class="space-y-2">
+                                {% for achievement in exp.achievements %}
+                                <li class="flex items-start stagger-item text-gray-300" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                                    <span class="text-[#002147] mr-3 mt-1 font-bold">▸</span>
+                                    <span>{{ achievement }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center text-gray-400">Work experience information coming soon.</p>
+                {% endfor %}
+            </div>
+            
+            <!-- Alternative Card View (Hidden, can be toggled) -->
+            <div class="space-y-8 hidden" id="cardView">
                 {% for exp in work_experience %}
                 <div class="quirky-card p-4 sm:p-6 md:p-8 reveal-card border-l-4 border-[#002147]" style="transition-delay: {{ forloop.counter|mul:0.15 }}s">
                     <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3 sm:mb-4">
@@ -1220,7 +1529,7 @@
     <!-- Skills Section -->
     <section id="skills" class="py-12 sm:py-16 md:py-20 bg-[#0f0f0f]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title">Skills</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title word-reveal">Skills</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {% for category, skills_list in skills_by_category.items %}
@@ -1253,11 +1562,13 @@
     <!-- Projects Section -->
     <section id="projects" class="py-12 sm:py-16 md:py-20 bg-dark-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title">Projects</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white section-title word-reveal">Projects</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {% for project in projects %}
-                <div class="quirky-card overflow-hidden project-card reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                <div class="card-3d quirky-card overflow-hidden project-card reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                    <div class="card-inner">
+                        <div class="card-front w-full">
                     {% if project.image %}
                     <div class="relative overflow-hidden">
                         <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-40 sm:h-48 object-cover">
@@ -1333,15 +1644,17 @@
                         {% endif %}
                         <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4">
                             {% if project.github_url %}
-                            <a href="{{ project.github_url }}" target="_blank" class="flex-1 bg-[#1a1a1a] text-white px-3 py-2 rounded text-center text-xs sm:text-sm hover:bg-[#2a2a2a] transition border border-[#2a2a2a]">
+                            <a href="{{ project.github_url }}" target="_blank" class="flex-1 ripple bg-[#1a1a1a] text-white px-3 py-2 rounded text-center text-xs sm:text-sm hover:bg-[#2a2a2a] transition border border-[#2a2a2a]">
                                 <i class="fab fa-github mr-1"></i> <span class="hidden sm:inline">GitHub</span><span class="sm:hidden">Code</span>
                             </a>
                             {% endif %}
                             {% if project.live_url %}
-                            <a href="{{ project.live_url }}" target="_blank" class="flex-1 quirky-btn px-3 py-2 rounded text-center text-xs sm:text-sm text-white">
+                            <a href="{{ project.live_url }}" target="_blank" class="flex-1 quirky-btn ripple px-3 py-2 rounded text-center text-xs sm:text-sm text-white">
                                 <i class="fas fa-external-link-alt mr-1"></i> Live
                             </a>
                             {% endif %}
+                        </div>
+                    </div>
                         </div>
                     </div>
                 </div>
@@ -1355,7 +1668,7 @@
     <!-- Contact Section -->
     <section id="contact" class="py-12 sm:py-16 md:py-20 bg-dark-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-white section-title">Get In Touch</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-white section-title word-reveal">Get In Touch</h2>
             <p class="text-lg sm:text-xl text-gray-300 mb-8 sm:mb-12 max-w-2xl mx-auto">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
             </p>
@@ -1713,6 +2026,333 @@
                 }, 300);
             }
         }, 5000);
+        
+        // ========== PAGE LOADER ==========
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('pageLoader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 800);
+        });
+        
+        // ========== PARTICLE SYSTEM ==========
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: 0, y: 0 };
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    
+                    // Mouse interaction
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        this.speedX += dx * 0.0001;
+                        this.speedY += dy * 0.0001;
+                    }
+                }
+                
+                draw() {
+                    ctx.fillStyle = `rgba(0, 85, 170, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            function createParticles() {
+                const particleCount = Math.min(50, Math.floor((canvas.width * canvas.height) / 15000));
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 120) {
+                            ctx.strokeStyle = `rgba(0, 85, 170, ${0.2 * (1 - distance / 120)})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                
+                connectParticles();
+                
+                requestAnimationFrame(animate);
+            }
+            
+            document.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+            
+            createParticles();
+            animate();
+        })();
+        
+        // ========== CUSTOM CURSOR ==========
+        (function() {
+            const cursor = document.getElementById('customCursor');
+            const cursorDot = document.getElementById('customCursorDot');
+            if (!cursor || !cursorDot) return;
+            
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            let dotX = 0, dotY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            // Hide default cursor on desktop only
+            if (window.innerWidth > 768 && !window.matchMedia('(pointer: coarse)').matches) {
+                document.body.style.cursor = 'none';
+            } else {
+                cursor.style.display = 'none';
+                cursorDot.style.display = 'none';
+            }
+            
+            // Animate cursor
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                dotX += (mouseX - dotX) * 0.3;
+                dotY += (mouseY - dotY) * 0.3;
+                
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                cursorDot.style.left = dotX + 'px';
+                cursorDot.style.top = dotY + 'px';
+                
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+            
+            // Hover effects
+            const hoverElements = document.querySelectorAll('a, button, .quirky-card, .project-card');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+            
+            // Click effect
+            document.addEventListener('mousedown', () => cursor.classList.add('click'));
+            document.addEventListener('mouseup', () => cursor.classList.remove('click'));
+        })();
+        
+        // ========== INTERACTIVE BACKGROUND ==========
+        (function() {
+            const bg = document.getElementById('interactiveBg');
+            if (!bg) return;
+            
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                bg.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        })();
+        
+        // ========== MAGNETIC BUTTONS ==========
+        (function() {
+            const magneticButtons = document.querySelectorAll('.magnetic-btn');
+            
+            magneticButtons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0, 0)';
+                });
+            });
+        })();
+        
+        // ========== WORD REVEAL ANIMATION ==========
+        (function() {
+            function initWordReveal() {
+                const elements = document.querySelectorAll('.word-reveal');
+                
+                elements.forEach(el => {
+                    // Skip if already processed
+                    if (el.querySelector('span')) return;
+                    
+                    const words = el.textContent.trim().split(/\s+/);
+                    el.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+                    
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                const spans = entry.target.querySelectorAll('span');
+                                spans.forEach((span, index) => {
+                                    setTimeout(() => {
+                                        span.style.transitionDelay = `${index * 0.05}s`;
+                                    }, 0);
+                                });
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    
+                    observer.observe(el);
+                });
+            }
+            
+            // Initialize after DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initWordReveal);
+            } else {
+                initWordReveal();
+            }
+        })();
+        
+        // ========== CIRCULAR SKILL PROGRESS ==========
+        (function() {
+            function createCircularProgress(skillName, proficiency) {
+                const percentage = (proficiency / 5) * 100;
+                const circumference = 2 * Math.PI * 50;
+                const offset = circumference - (percentage / 100) * circumference;
+                
+                return `
+                    <div class="skill-circle">
+                        <svg width="120" height="120">
+                            <defs>
+                                <linearGradient id="gradient-${skillName.replace(/\s+/g, '-')}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#002147;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#0055aa;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0066cc;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle class="bg-circle" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-circle" cx="60" cy="60" r="50" 
+                                    stroke-dasharray="${circumference}" 
+                                    stroke-dashoffset="${circumference}"
+                                    data-offset="${offset}"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-2xl font-bold text-white">${proficiency}/5</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Animate circular progress on scroll
+            const skillCircles = document.querySelectorAll('.progress-circle');
+            const circleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const offset = entry.target.getAttribute('data-offset');
+                        setTimeout(() => {
+                            entry.target.style.strokeDashoffset = offset;
+                        }, 200);
+                        circleObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            skillCircles.forEach(circle => circleObserver.observe(circle));
+        })();
+        
+        // ========== ENHANCED SCROLL ANIMATIONS ==========
+        (function() {
+            // Parallax effect for sections
+            const parallaxElements = document.querySelectorAll('.gradient-bg, .orb');
+            
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                parallaxElements.forEach((el, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        })();
+        
+        // ========== NUMBER COUNTER ANIMATION ==========
+        (function() {
+            function animateCounter(element, target, duration = 2000) {
+                let start = 0;
+                const increment = target / (duration / 16);
+                
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= target) {
+                        element.textContent = Math.floor(target) + '+';
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(start) + '+';
+                    }
+                }, 16);
+            }
+            
+            // This can be used for any stat counters if needed
+            const counters = document.querySelectorAll('.stat-number');
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.textContent);
+                        if (!isNaN(target)) {
+                            animateCounter(entry.target, target);
+                            counterObserver.unobserve(entry.target);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(counter => counterObserver.observe(counter));
+        })();
     </script>
 </body>
 </html>
