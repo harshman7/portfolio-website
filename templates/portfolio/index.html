@@ -87,6 +87,72 @@
             100% { transform: translate(50px, 50px); }
         }
         
+        /* Racing Speed Lines Effect */
+        .speed-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+        
+        .speed-line {
+            position: absolute;
+            width: 2px;
+            height: 200%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: speed-line-move 3s linear infinite;
+        }
+        
+        .speed-line:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .speed-line:nth-child(2) { left: 30%; animation-delay: 0.5s; }
+        .speed-line:nth-child(3) { left: 50%; animation-delay: 1s; }
+        .speed-line:nth-child(4) { left: 70%; animation-delay: 1.5s; }
+        .speed-line:nth-child(5) { left: 90%; animation-delay: 2s; }
+        
+        @keyframes speed-line-move {
+            0% { transform: translateY(-100%) translateX(0); }
+            100% { transform: translateY(100vh) translateX(0); }
+        }
+        
+        /* Racing-inspired Pulse Effect */
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid rgba(0, 85, 170, 0.5);
+            border-radius: 50%;
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Fast Fade In Animation */
+        @keyframes fast-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fast-fade-in {
+            animation: fast-fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
         /* Floating Orbs */
         .orb {
             position: absolute;
@@ -250,13 +316,14 @@
             transform: translateY(0) !important;
         }
         
-        /* Quirky Card Hover */
+        /* Quirky Card Hover - Enhanced Racing Style */
         .quirky-card {
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
             border-radius: 16px;
             position: relative;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .quirky-card::before {
@@ -266,10 +333,23 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 85, 170, 0.15) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: 1;
+            pointer-events: none;
+        }
+        
+        .quirky-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 85, 170, 0.2), transparent);
+            transition: left 0.6s ease;
+            z-index: 2;
             pointer-events: none;
         }
         
@@ -277,10 +357,16 @@
             opacity: 1;
         }
         
+        .quirky-card:hover::after {
+            left: 100%;
+        }
+        
         .quirky-card:hover {
-            border-color: #002147 !important;
-            box-shadow: 0 20px 40px rgba(0, 33, 71, 0.3),
-                        0 0 0 1px rgba(0, 33, 71, 0.2) !important;
+            border-color: #0055aa !important;
+            box-shadow: 0 20px 40px rgba(0, 85, 170, 0.4),
+                        0 0 0 1px rgba(0, 85, 170, 0.3),
+                        0 0 60px rgba(0, 64, 128, 0.2) !important;
+            transform: translateY(-5px) scale(1.02);
         }
         
         /* Hover transform only applies when card is visible */
@@ -385,13 +471,14 @@
             pointer-events: all;
         }
         
-        /* Quirky Button */
+        /* Quirky Button - Racing Style */
         .quirky-btn {
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #002147, #003366, #004080);
             border: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 33, 71, 0.3);
         }
         
         .quirky-btn::before {
@@ -407,15 +494,35 @@
             transition: width 0.6s, height 0.6s;
         }
         
+        .quirky-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
         .quirky-btn:hover::before {
             width: 300px;
             height: 300px;
         }
         
+        .quirky-btn:hover::after {
+            left: 100%;
+        }
+        
         .quirky-btn:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 10px 30px rgba(0, 33, 71, 0.5);
-            background: linear-gradient(135deg, #003366, #004080, #0055aa);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 85, 170, 0.6),
+                        0 0 30px rgba(0, 64, 128, 0.4);
+            background: linear-gradient(135deg, #003366, #004080, #0055aa, #0066cc);
+        }
+        
+        .quirky-btn:active {
+            transform: scale(1.05) translateY(0);
         }
         
         /* Typing Animation */
@@ -436,16 +543,68 @@
             50% { border-color: #002147; }
         }
         
-        /* Scroll Progress - Apple-like Smooth */
+        /* Scroll Progress - Racing-inspired with glow */
         .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #002147, #003366, #004080, #0055aa);
+            height: 3px;
+            background: linear-gradient(90deg, #002147, #003366, #004080, #0055aa, #0066cc);
             z-index: 9999;
             transition: width 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 0 10px rgba(0, 33, 71, 0.5);
+            box-shadow: 0 0 15px rgba(0, 85, 170, 0.8), 0 0 30px rgba(0, 64, 128, 0.4);
+        }
+        
+        /* Racing-inspired Stats Counter */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #002147, #0055aa, #0066cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        
+        /* Dynamic Text Shadow Effect */
+        .dynamic-shadow {
+            text-shadow: 0 0 20px rgba(0, 85, 170, 0.5),
+                         0 0 40px rgba(0, 64, 128, 0.3),
+                         0 0 60px rgba(0, 51, 102, 0.2);
+            animation: shadow-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes shadow-pulse {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(0, 85, 170, 0.5),
+                             0 0 40px rgba(0, 64, 128, 0.3),
+                             0 0 60px rgba(0, 51, 102, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(0, 85, 170, 0.8),
+                             0 0 60px rgba(0, 64, 128, 0.5),
+                             0 0 90px rgba(0, 51, 102, 0.3);
+            }
+        }
+        
+        /* Racing Stripes Effect */
+        .racing-stripe {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(0, 85, 170, 0.3) 20px,
+                rgba(0, 85, 170, 0.3) 40px
+            );
+            animation: stripe-move 1s linear infinite;
+        }
+        
+        @keyframes stripe-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(40px); }
         }
         
         /* Social Icons */
@@ -782,18 +941,27 @@
     </div>
     
         <!-- Hero Section -->
-        <section id="home" class="min-h-screen gradient-bg relative flex items-center justify-center pt-16">
+        <section id="home" class="min-h-screen gradient-bg relative flex items-center justify-center pt-16 overflow-hidden">
             <div class="grid-pattern"></div>
+            <div class="speed-lines">
+                <div class="speed-line"></div>
+                <div class="speed-line"></div>
+                <div class="speed-line"></div>
+                <div class="speed-line"></div>
+                <div class="speed-line"></div>
+            </div>
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="orb orb-3"></div>
+            <div class="racing-stripe" style="top: 20%;"></div>
+            <div class="racing-stripe" style="bottom: 20%;"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 text-center relative z-10">
             {% if profile %}
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-4 text-reveal glitch" data-text="{{ profile.full_name }}">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-4 text-reveal glitch dynamic-shadow" data-text="{{ profile.full_name }}" style="letter-spacing: -0.02em;">
                 {{ profile.full_name }}
             </h1>
-            <p class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-2 typing-text text-gradient">
+            <p class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-2 typing-text text-gradient" style="font-weight: 600;">
                 Software Developer & Data Engineer
             </p>
             <p class="text-base sm:text-lg text-gray-400 mb-6 sm:mb-8">
@@ -841,10 +1009,35 @@
             </div>
             
             <div class="mt-6 sm:mt-10">
-                <a href="#about" class="inline-block quirky-btn px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg text-white">
-                    Explore My Work
+                <a href="#about" class="inline-block quirky-btn px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg text-white relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(0, 85, 170, 0.4);">
+                    <span class="relative z-10">Explore My Work</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0055aa] via-[#0066cc] to-[#0055aa] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </a>
             </div>
+            
+            <!-- Quick Stats Section - Racing Style -->
+            {% if projects or work_experience or certifications %}
+            <div class="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto fast-fade-in" style="animation-delay: 0.3s;">
+                {% if projects %}
+                <div class="text-center">
+                    <div class="stat-number">{{ projects|length }}+</div>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Projects</p>
+                </div>
+                {% endif %}
+                {% if work_experience %}
+                <div class="text-center">
+                    <div class="stat-number">{{ work_experience|length }}+</div>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Experience</p>
+                </div>
+                {% endif %}
+                {% if certifications %}
+                <div class="text-center">
+                    <div class="stat-number">{{ certifications|length }}+</div>
+                    <p class="text-xs sm:text-sm text-gray-400 mt-2">Certifications</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
             
             <!-- Scroll Indicator -->
             <div class="mt-8 sm:mt-16 bounce-quirky">
