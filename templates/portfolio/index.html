@@ -733,6 +733,9 @@
         <nav class="space-y-2">
             <a href="#home" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Home</a>
             <a href="#about" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">About</a>
+            {% if certifications %}
+            <a href="#certifications" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Certifications</a>
+            {% endif %}
             <a href="#experience" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Experience</a>
             <a href="#projects" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Projects</a>
             <a href="#skills" class="block py-2 px-4 rounded-lg text-gray-300 hover:text-white hover:bg-[#1a1a1a] transition reveal-card">Skills</a>
@@ -851,6 +854,95 @@
             </div>
         </div>
     </section>
+    
+    <!-- Certifications Section -->
+    {% if certifications %}
+    <section id="certifications" class="py-20 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 text-white section-title">Certifications</h2>
+            <p class="text-center text-gray-400 mb-12 text-lg">Professional credentials and achievements</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for cert in certifications %}
+                <div class="quirky-card p-6 reveal-card-scale group" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-4 flex-1">
+                            <!-- Logo based on issuer -->
+                            <div class="w-16 h-16 rounded-lg flex items-center justify-center bg-gradient-to-br from-[#002147] via-[#003366] to-[#004080] flex-shrink-0">
+                                {% if "aws" in cert.issuer|lower or "amazon" in cert.issuer|lower %}
+                                    <i class="fab fa-aws text-3xl text-white"></i>
+                                {% elif "google" in cert.issuer|lower or "gcp" in cert.issuer|lower %}
+                                    <i class="fab fa-google text-3xl text-white"></i>
+                                {% elif "microsoft" in cert.issuer|lower or "azure" in cert.issuer|lower %}
+                                    <i class="fab fa-microsoft text-3xl text-white"></i>
+                                {% elif "oracle" in cert.issuer|lower %}
+                                    <i class="fab fa-oracle text-3xl text-white"></i>
+                                {% elif "ibm" in cert.issuer|lower %}
+                                    <i class="fab fa-ibm text-3xl text-white"></i>
+                                {% elif "cisco" in cert.issuer|lower %}
+                                    <i class="fas fa-network-wired text-3xl text-white"></i>
+                                {% elif "meta" in cert.issuer|lower or "facebook" in cert.issuer|lower %}
+                                    <i class="fab fa-meta text-3xl text-white"></i>
+                                {% elif "salesforce" in cert.issuer|lower %}
+                                    <i class="fab fa-salesforce text-3xl text-white"></i>
+                                {% elif "docker" in cert.issuer|lower %}
+                                    <i class="fab fa-docker text-3xl text-white"></i>
+                                {% elif "kubernetes" in cert.issuer|lower or "k8s" in cert.issuer|lower %}
+                                    <i class="fas fa-cube text-3xl text-white"></i>
+                                {% else %}
+                                    <i class="fas fa-certificate text-3xl text-white"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gradient transition">{{ cert.name }}</h3>
+                                {% if cert.issuer %}
+                                <p class="text-sm text-gray-400 font-medium">{{ cert.issuer }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank" class="text-gray-400 hover:text-white transition ml-2 flex-shrink-0" title="View Credential">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-[#2a2a2a]">
+                        <div class="flex flex-col space-y-2">
+                            {% if cert.issue_date %}
+                            <div class="flex items-center text-sm text-gray-400">
+                                <i class="far fa-calendar-check mr-2 text-[#002147]"></i>
+                                <span>Issued: {{ cert.issue_date }}</span>
+                            </div>
+                            {% endif %}
+                            {% if cert.expiry_date %}
+                            <div class="flex items-center text-sm text-gray-400">
+                                <i class="far fa-calendar-times mr-2 text-[#002147]"></i>
+                                <span>Expires: {{ cert.expiry_date }}</span>
+                            </div>
+                            {% endif %}
+                            {% if cert.credential_id %}
+                            <div class="flex items-center text-sm text-gray-400">
+                                <i class="fas fa-id-card mr-2 text-[#002147]"></i>
+                                <span class="font-mono text-xs">{{ cert.credential_id }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if cert.credential_url %}
+                    <div class="mt-4">
+                        <a href="{{ cert.credential_url }}" target="_blank" class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all" style="background: linear-gradient(135deg, #002147, #003366, #004080);">
+                            <span>Verify Credential</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
     
     <!-- Experience Section -->
     <section id="experience" class="py-20 bg-dark-bg">
@@ -986,36 +1078,6 @@
             </div>
         </div>
     </section>
-    
-    <!-- Certifications Section -->
-    {% if certifications %}
-    <section class="py-20 bg-[#0f0f0f]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white section-title">Certifications</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for cert in certifications %}
-                <div class="quirky-card p-6 reveal-card-scale" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
-                    <div class="flex items-center justify-between mb-4">
-                        <i class="fas fa-certificate text-3xl text-gradient"></i>
-                        {% if cert.credential_url %}
-                        <a href="{{ cert.credential_url }}" target="_blank" class="text-gray-400 hover:text-white transition">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        {% endif %}
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">{{ cert.name }}</h3>
-                    {% if cert.issuer %}
-                    <p class="text-gray-400 text-sm mb-2">{{ cert.issuer }}</p>
-                    {% endif %}
-                    {% if cert.issue_date %}
-                    <p class="text-gray-500 text-sm"><i class="far fa-calendar mr-2"></i>{{ cert.issue_date }}</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    {% endif %}
     
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-dark-bg">
