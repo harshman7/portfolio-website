@@ -741,10 +741,17 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 33, 71, 0.5), transparent);
+            background: radial-gradient(circle, rgba(0, 85, 170, 0.6), transparent);
             pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.1s ease;
+            z-index: 99999;
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-follow.hover {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.4), transparent);
         }
         
         /* Number Counter Animation */
@@ -906,40 +913,6 @@
             -webkit-backface-visibility: hidden;
         }
         
-        /* Custom Cursor */
-        .custom-cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #0055aa;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
-            mix-blend-mode: difference;
-        }
-        
-        .custom-cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: #0055aa;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transition: transform 0.15s ease;
-        }
-        
-        .custom-cursor.hover {
-            width: 50px;
-            height: 50px;
-            border-color: #0066cc;
-        }
-        
-        .custom-cursor.click {
-            transform: scale(0.9);
-        }
-        
         /* Animated Timeline */
         .timeline {
             position: relative;
@@ -966,12 +939,15 @@
         .timeline-item:nth-child(odd) {
             left: 0;
             padding-right: 3rem;
-            text-align: right;
         }
         
         .timeline-item:nth-child(even) {
             left: 50%;
             padding-left: 3rem;
+        }
+        
+        .timeline-item .quirky-card {
+            text-align: left;
         }
         
         .timeline-dot {
@@ -1191,10 +1167,6 @@
     
     <!-- Particle System Canvas -->
     <canvas id="particles-canvas"></canvas>
-    
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
-    <div class="custom-cursor-dot" id="customCursorDot"></div>
     
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
@@ -1467,15 +1439,15 @@
                                 </span>
                             </div>
                         </div>
-                        <p class="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed">{{ exp.description }}</p>
+                        <p class="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed text-left">{{ exp.description }}</p>
                         {% if exp.achievements %}
-                        <div class="mt-6">
+                        <div class="mt-6 text-left">
                             <h4 class="text-lg font-semibold text-white mb-3">Key Achievements:</h4>
-                            <ul class="space-y-2">
+                            <ul class="space-y-2 list-none pl-0">
                                 {% for achievement in exp.achievements %}
-                                <li class="flex items-start stagger-item text-gray-300" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
-                                    <span class="text-[#002147] mr-3 mt-1 font-bold">▸</span>
-                                    <span>{{ achievement }}</span>
+                                <li class="flex items-start stagger-item text-gray-300 text-left" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                                    <span class="text-[#002147] mr-3 mt-1 font-bold flex-shrink-0">▸</span>
+                                    <span class="flex-1">{{ achievement }}</span>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -1504,15 +1476,15 @@
                             </span>
                         </div>
                     </div>
-                    <p class="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed">{{ exp.description }}</p>
+                    <p class="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed text-left">{{ exp.description }}</p>
                     {% if exp.achievements %}
-                    <div class="mt-6">
+                    <div class="mt-6 text-left">
                         <h4 class="text-lg font-semibold text-white mb-3">Key Achievements:</h4>
-                        <ul class="space-y-2">
+                        <ul class="space-y-2 list-none pl-0">
                             {% for achievement in exp.achievements %}
-                            <li class="flex items-start stagger-item text-gray-300" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
-                                <span class="text-[#002147] mr-3 mt-1 font-bold">▸</span>
-                                <span>{{ achievement }}</span>
+                            <li class="flex items-start stagger-item text-gray-300 text-left" style="transition-delay: {{ forloop.counter|mul:0.1 }}s">
+                                <span class="text-[#002147] mr-3 mt-1 font-bold flex-shrink-0">▸</span>
+                                <span class="flex-1">{{ achievement }}</span>
                             </li>
                             {% endfor %}
                         </ul>
@@ -1832,25 +1804,6 @@
             });
         }
         
-        // Cursor Follow Effect
-        const cursorFollow = document.getElementById('cursorFollow');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            cursorFollow.style.left = cursorX + 'px';
-            cursorFollow.style.top = cursorY + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-        
         // Apple-like Smooth Scrolling for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2138,40 +2091,26 @@
             animate();
         })();
         
-        // ========== CUSTOM CURSOR ==========
+        // ========== ENHANCED CURSOR FOLLOW ==========
         (function() {
-            const cursor = document.getElementById('customCursor');
-            const cursorDot = document.getElementById('customCursorDot');
-            if (!cursor || !cursorDot) return;
+            const cursorFollow = document.getElementById('cursorFollow');
+            if (!cursorFollow) return;
             
             let mouseX = 0, mouseY = 0;
             let cursorX = 0, cursorY = 0;
-            let dotX = 0, dotY = 0;
             
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
             });
             
-            // Hide default cursor on desktop only
-            if (window.innerWidth > 768 && !window.matchMedia('(pointer: coarse)').matches) {
-                document.body.style.cursor = 'none';
-            } else {
-                cursor.style.display = 'none';
-                cursorDot.style.display = 'none';
-            }
-            
             // Animate cursor
             function animateCursor() {
-                cursorX += (mouseX - cursorX) * 0.1;
-                cursorY += (mouseY - cursorY) * 0.1;
-                dotX += (mouseX - dotX) * 0.3;
-                dotY += (mouseY - dotY) * 0.3;
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
                 
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                cursorDot.style.left = dotX + 'px';
-                cursorDot.style.top = dotY + 'px';
+                cursorFollow.style.left = cursorX + 'px';
+                cursorFollow.style.top = cursorY + 'px';
                 
                 requestAnimationFrame(animateCursor);
             }
@@ -2180,13 +2119,9 @@
             // Hover effects
             const hoverElements = document.querySelectorAll('a, button, .quirky-card, .project-card');
             hoverElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                el.addEventListener('mouseenter', () => cursorFollow.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorFollow.classList.remove('hover'));
             });
-            
-            // Click effect
-            document.addEventListener('mousedown', () => cursor.classList.add('click'));
-            document.addEventListener('mouseup', () => cursor.classList.remove('click'));
         })();
         
         // ========== INTERACTIVE BACKGROUND ==========
