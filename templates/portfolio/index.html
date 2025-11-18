@@ -957,15 +957,20 @@
             text-align: left;
             position: relative;
             z-index: 1;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         
-        /* Ensure timeline cards have hover effects */
+        /* Ensure timeline cards have hover effects - Enhanced */
         .timeline-item .quirky-card:hover {
             border-color: #0055aa !important;
+            border-left-color: #0055aa !important;
             box-shadow: 0 20px 40px rgba(0, 85, 170, 0.4),
                         0 0 0 1px rgba(0, 85, 170, 0.3),
-                        0 0 60px rgba(0, 64, 128, 0.2) !important;
-            transform: translateY(-5px) scale(1.02) !important;
+                        0 0 60px rgba(0, 64, 128, 0.2),
+                        inset 0 0 20px rgba(0, 85, 170, 0.1) !important;
+            transform: translateY(-8px) scale(1.02) !important;
+            background: #1f1f1f !important;
         }
         
         .timeline-item .quirky-card:hover::before {
@@ -974,6 +979,14 @@
         
         .timeline-item .quirky-card:hover::after {
             left: 100% !important;
+        }
+        
+        /* Add glow effect to timeline dot on card hover */
+        .timeline-item:hover .timeline-dot {
+            box-shadow: 0 0 30px rgba(0, 85, 170, 0.9),
+                        0 0 60px rgba(0, 85, 170, 0.5) !important;
+            transform: scale(1.2);
+            transition: all 0.3s ease;
         }
         
         .timeline-dot {
@@ -985,6 +998,7 @@
             border-radius: 50%;
             top: 0;
             box-shadow: 0 0 20px rgba(0, 85, 170, 0.6);
+            transition: all 0.3s ease;
         }
         
         .timeline-item:nth-child(odd) .timeline-dot {
