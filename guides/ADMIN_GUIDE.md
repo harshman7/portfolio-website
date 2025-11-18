@@ -110,8 +110,12 @@ Manage your work history:
 - Mark "Is current" if this is your current job
 - Write a description of your role
 - Add achievements as a JSON array: `["Achievement 1", "Achievement 2"]`
-- Set display order (most recent first)
+- Set display order: **Higher numbers appear first** (latest to oldest)
+  - Most recent job: Set order to 3 (or highest)
+  - Older jobs: Set order to 2, 1, etc.
 - Save changes
+
+**Note**: Work experiences are displayed in chronological order (latest to oldest) on the website. The model uses `ordering = ['-order']`, so higher order numbers appear first.
 
 **Example achievements JSON:**
 ```json
@@ -141,9 +145,15 @@ Manage your portfolio projects:
 - List technologies: `Python, Django, PostgreSQL, Tailwind CSS`
 - Add features as JSON array
 - Add GitHub and live demo URLs (if available)
-- Upload a project screenshot/image
-- Set display order
+- Upload a project screenshot/image (optional - custom logos will be used if no image)
+- Set display order (higher numbers appear first)
 - Save changes
+
+**Note**: If no project image is uploaded, the website will automatically display a custom logo based on the project name:
+- **DocSage**: Document + AI brain icon with tech stack icons
+- **Whimsy**: Social media icons (heart, Firebase, smile)
+- **GridSense**: F1 racing + analytics icons
+- **Other projects**: Tech stack-based logo detection
 
 **Example tech stack:**
 ```
@@ -162,7 +172,7 @@ Python, Django, PostgreSQL, Tailwind CSS, Docker
 #### 6. **Certifications**
 Manage your certifications:
 - Certification name
-- Issuer (e.g., "AWS", "Google Cloud")
+- Issuer (e.g., "AWS", "Google Cloud", "Microsoft") - **Important**: Used for logo display
 - Issue date
 - Expiry date (if applicable)
 - Credential ID
@@ -172,9 +182,16 @@ Manage your certifications:
 **How to use:**
 - Click "Certifications" → "Add Certification"
 - Enter certification details
+- **Set issuer correctly** - The website automatically displays logos based on issuer:
+  - **AWS**: Amazon logo
+  - **Google Cloud** or **Google**: Google logo
+  - **Microsoft**: Microsoft logo
+  - **Other**: Generic certification icon
 - Add credential URL if you have a verification link
-- Set display order
+- Set display order (higher numbers appear first)
 - Save changes
+
+**Note**: Certifications are displayed with issuer logos and appear after the "About Me" section on the website.
 
 ## 🎨 Tips and Best Practices
 

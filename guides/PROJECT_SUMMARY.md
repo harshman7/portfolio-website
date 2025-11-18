@@ -31,11 +31,18 @@ Portfolio website/
 ## 🎨 Features Implemented
 
 ### 1. **Modern UI Design**
-   - ✅ Responsive design with Tailwind CSS
-   - ✅ Smooth scrolling navigation
+   - ✅ Responsive design with Tailwind CSS (DM Sans font)
+   - ✅ Smooth scrolling navigation with scroll progress indicator
    - ✅ Gradient backgrounds and animations
-   - ✅ Card-based layouts with hover effects
-   - ✅ Mobile-first approach
+   - ✅ Card-based layouts with enhanced hover effects (lift, scale, glow)
+   - ✅ Mobile-first approach with optimized mobile experience
+   - ✅ Custom project logos for each project
+   - ✅ Animated timeline for work experience
+   - ✅ Interactive background effects
+   - ✅ Particle system animations
+   - ✅ Word-by-word reveal animations
+   - ✅ Magnetic button effects
+   - ✅ Circular skill progress indicators
 
 ### 2. **Database Models**
    - ✅ Profile (personal information)
@@ -56,22 +63,28 @@ Portfolio website/
    - ✅ Environment variable configuration
 
 ### 5. **Portfolio Sections**
-   - ✅ Hero section with profile information
-   - ✅ About section with education
-   - ✅ Skills section with progress bars
-   - ✅ Work experience section
-   - ✅ Projects showcase
-   - ✅ Certifications display
-   - ✅ Contact section
+   - ✅ Hero section with profile information and animated elements
+   - ✅ About section with education details
+   - ✅ Certifications section with issuer logos (AWS, Google Cloud, Microsoft, etc.)
+   - ✅ Skills section with circular progress indicators
+   - ✅ Work experience section with animated timeline (chronological: latest to oldest)
+   - ✅ Projects showcase with custom logos and 3D card effects
+   - ✅ Contact section with social media links
 
 ## 📊 Data Loaded
 
-✅ **Profile**: Harshmanpreet Singh  
-✅ **Education**: University of Alberta (BSc Computer Science)  
-✅ **Skills**: 26 technical skills across 5 categories  
-✅ **Work Experience**: 2 positions (WFS Transport, Disney Streaming)  
-✅ **Projects**: 2 projects (WHIMSY, Formula 1 Predictor)  
-✅ **Certifications**: 2 certifications (AWS, Google Cloud)  
+✅ **Profile**: Harshmanpreet Singh (Data Engineer & Software Developer)  
+✅ **Education**: University of Alberta (Bachelor of Science in Computing Science, Class of 2026, GPA: 3.68)  
+✅ **Skills**: 46 technical skills across 5 categories (Frontend, Backend, Database, Cloud, Tools, Other)  
+✅ **Work Experience**: 3 positions (chronological order: latest to oldest)
+   - AccelerEd (via SKKY Analytics & Consulting Inc.) - Data Intern (May 2025 - Sept 2025)
+   - Disney Streaming - Data Engineer (Sept 2024 - May 2025)
+   - WFS. Transport Ltd. - Data Intern (May 2023 - Jan 2024)
+✅ **Projects**: 3 projects with custom logos
+   - DocSage (Intelligent Document Processing & Analytics)
+   - Whimsy (Social Media Application)
+   - GridSense (Formula One Outcome Predictor)
+✅ **Certifications**: 2 certifications (AWS Certified Solutions Architect - Associate, Google Cloud Associate Cloud Engineer)  
 
 ## 🚀 How to Run
 
@@ -143,12 +156,21 @@ Access the admin panel to:
 
 ## 🎨 Design Highlights
 
-- **Color Scheme**: Blue to purple gradients
-- **Typography**: Inter font family
-- **Layout**: Clean, modern, professional
-- **Animations**: Smooth fade-in effects, hover transitions
-- **Responsive**: Works on all device sizes
-- **Accessibility**: Semantic HTML, proper contrast
+- **Color Scheme**: Blue to purple gradients (#002147, #003366, #004080, #0055aa)
+- **Typography**: DM Sans font family (Google Fonts)
+- **Layout**: Clean, modern, professional with racing-inspired elements
+- **Animations**: 
+  - Smooth fade-in effects with scroll reveal
+  - Enhanced hover transitions (lift, scale, glow)
+  - Word-by-word text reveal
+  - Particle system background
+  - Interactive gradient backgrounds
+  - Magnetic button effects
+  - 3D card flip effects
+  - Timeline animations
+- **Responsive**: Works on all device sizes with mobile-optimized interactions
+- **Accessibility**: Semantic HTML, proper contrast, keyboard navigation
+- **Performance**: Optimized animations with CSS transforms and GPU acceleration
 
 ## 📚 Documentation
 

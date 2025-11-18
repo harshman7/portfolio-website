@@ -27,13 +27,21 @@ Open your browser and visit: **http://127.0.0.1:8000/**
 
 ## 🎨 Features
 
-✅ Modern, responsive design with Tailwind CSS  
-✅ Fully populated with your resume data  
-✅ Smooth scrolling and animations  
-✅ Skills visualization  
-✅ Work experience showcase  
-✅ Projects portfolio  
-✅ Certifications display  
+✅ Modern, responsive design with Tailwind CSS (DM Sans font)  
+✅ Fully populated with your resume data (3 work experiences, 3 projects, 46 skills)  
+✅ Enhanced animations and effects:
+   - Scroll-reveal animations with word-by-word text reveals
+   - Enhanced hover effects on all cards (lift, scale, glow)
+   - Particle system background
+   - Interactive gradient backgrounds
+   - Magnetic button effects
+   - 3D card flip effects
+   - Animated timeline for work experience
+✅ Custom project logos (DocSage, Whimsy, GridSense)  
+✅ Skills visualization with circular progress indicators  
+✅ Work experience showcase (chronological: latest to oldest)  
+✅ Projects portfolio with custom logos  
+✅ Certifications display with issuer logos (AWS, Google Cloud, etc.)  
 ✅ Admin panel for easy content management  
 
 ## 📝 Admin Panel
